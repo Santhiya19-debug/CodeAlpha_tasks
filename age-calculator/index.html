@@ -39,30 +39,124 @@
 
         <!-- Input Section -->
         <section class="input-section" aria-label="Date of birth input">
-          <div class="field-group">
-            <label for="dob-input" class="field-label">Date of Birth</label>
-            <div class="input-wrapper">
-              <input
-                type="date"
-                id="dob-input"
-                class="date-input"
-                aria-describedby="input-error"
-                max=""
-              />
-              <span class="input-icon" aria-hidden="true">
-                <!-- Calendar SVG icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-              </span>
-            </div>
 
-            <!-- Validation message -->
-            <p id="input-error" class="error-message" role="alert" aria-live="polite"></p>
+          <!-- Input mode tabs: picker vs manual text -->
+          <div class="input-mode-tabs" role="tablist" aria-label="Date entry method">
+            <button
+              id="tab-picker"
+              class="mode-tab active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-picker"
+              type="button"
+            >
+              <!-- Calendar icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Date Picker
+            </button>
+            <button
+              id="tab-text"
+              class="mode-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-text"
+              type="button"
+            >
+              <!-- Keyboard icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                <line x1="6" y1="10" x2="6" y2="10"></line>
+                <line x1="10" y1="10" x2="10" y2="10"></line>
+                <line x1="14" y1="10" x2="14" y2="10"></line>
+                <line x1="18" y1="10" x2="18" y2="10"></line>
+                <line x1="6" y1="14" x2="18" y2="14"></line>
+              </svg>
+              Type Manually
+            </button>
           </div>
+
+          <!-- Panel A: Native date picker -->
+          <div id="panel-picker" class="input-panel" role="tabpanel" aria-labelledby="tab-picker">
+            <div class="field-group">
+              <label for="dob-input" class="field-label">Date of Birth</label>
+              <div class="input-wrapper">
+                <input
+                  type="date"
+                  id="dob-input"
+                  class="date-input"
+                  aria-describedby="input-error"
+                  max=""
+                />
+                <span class="input-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel B: Manual DD / MM / YYYY text inputs -->
+          <div id="panel-text" class="input-panel hidden" role="tabpanel" aria-labelledby="tab-text">
+            <div class="field-group">
+              <label class="field-label">Date of Birth</label>
+              <div class="manual-inputs" role="group" aria-label="Enter day, month and year separately">
+                <div class="manual-field">
+                  <input
+                    type="text"
+                    id="manual-day"
+                    class="manual-input"
+                    placeholder="DD"
+                    maxlength="2"
+                    inputmode="numeric"
+                    aria-label="Day"
+                    autocomplete="off"
+                  />
+                  <span class="manual-label">Day</span>
+                </div>
+                <span class="manual-sep" aria-hidden="true">/</span>
+                <div class="manual-field">
+                  <input
+                    type="text"
+                    id="manual-month"
+                    class="manual-input"
+                    placeholder="MM"
+                    maxlength="2"
+                    inputmode="numeric"
+                    aria-label="Month"
+                    autocomplete="off"
+                  />
+                  <span class="manual-label">Month</span>
+                </div>
+                <span class="manual-sep" aria-hidden="true">/</span>
+                <div class="manual-field manual-field--year">
+                  <input
+                    type="text"
+                    id="manual-year"
+                    class="manual-input"
+                    placeholder="YYYY"
+                    maxlength="4"
+                    inputmode="numeric"
+                    aria-label="Year"
+                    autocomplete="off"
+                  />
+                  <span class="manual-label">Year</span>
+                </div>
+              </div>
+              <p class="manual-hint">Format: DD / MM / YYYY &nbsp;·&nbsp; e.g. 15 / 08 / 1998</p>
+            </div>
+          </div>
+
+          <!-- Shared validation message (used by both panels) -->
+          <p id="input-error" class="error-message" role="alert" aria-live="polite"></p>
 
           <button id="calculate-btn" class="calculate-btn" type="button">
             <span class="btn-text">Calculate Age</span>
@@ -70,10 +164,10 @@
           </button>
         </section>
 
-        <!-- Divider -->
-        <div class="divider" aria-hidden="true"></div>
+        <!-- Divider — only visible when results are showing -->
+        <div class="divider" id="result-divider" aria-hidden="true" style="display:none"></div>
 
-        <!-- Results Section — hidden until calculation -->
+        <!-- Results Section — hidden until first calculation -->
         <section
           id="results-section"
           class="results-section hidden"
@@ -82,7 +176,7 @@
         >
           <p class="results-label">Your exact age is</p>
 
-          <!-- Three stat cards: Years / Months / Days -->
+          <!-- Three stat cards -->
           <div class="stats-grid">
             <div class="stat-card" id="stat-years">
               <span class="stat-number" id="years-value">0</span>
@@ -98,11 +192,32 @@
             </div>
           </div>
 
-          <!-- Summary line (e.g. "Born on Monday, 1 January 2000") -->
+          <!-- Born-on summary -->
           <p class="born-on" id="born-on-text"></p>
 
-          <!-- Fun fact: total days lived -->
+          <!-- Total days fun fact -->
           <p class="total-days" id="total-days-text"></p>
+
+          <!-- Action buttons shown after a result -->
+          <div class="result-actions">
+            <!-- Edit inline — scrolls up and pre-fills the input -->
+            <button id="edit-btn" class="action-btn action-btn--ghost" type="button" aria-label="Edit date of birth">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Edit Date
+            </button>
+
+            <!-- Reset — clears everything and focuses the input -->
+            <button id="reset-btn" class="action-btn action-btn--ghost" type="button" aria-label="Calculate for a different date">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 .49-4.5"></path>
+              </svg>
+              Try Another Date
+            </button>
+          </div>
         </section>
 
       </div>
