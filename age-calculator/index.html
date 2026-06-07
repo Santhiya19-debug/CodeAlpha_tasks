@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+
+    <!-- Google Fonts: Playfair Display + DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Theme toggle button — top-right corner -->
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      aria-label="Toggle dark mode"
+      title="Toggle theme"
+    >
+      <span class="toggle-icon" id="toggle-icon">🌙</span>
+    </button>
+
+    <main class="page-wrapper">
+      <div class="card" role="main">
+
+        <!-- Header -->
+        <header class="card-header">
+          <p class="card-eyebrow">Discover Your</p>
+          <h1 class="card-title">Age Calculator</h1>
+          <p class="card-subtitle">Enter your date of birth to find out your exact age.</p>
+        </header>
+
+        <!-- Input Section -->
+        <section class="input-section" aria-label="Date of birth input">
+          <div class="field-group">
+            <label for="dob-input" class="field-label">Date of Birth</label>
+            <div class="input-wrapper">
+              <input
+                type="date"
+                id="dob-input"
+                class="date-input"
+                aria-describedby="input-error"
+                max=""
+              />
+              <span class="input-icon" aria-hidden="true">
+                <!-- Calendar SVG icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </span>
+            </div>
+
+            <!-- Validation message -->
+            <p id="input-error" class="error-message" role="alert" aria-live="polite"></p>
+          </div>
+
+          <button id="calculate-btn" class="calculate-btn" type="button">
+            <span class="btn-text">Calculate Age</span>
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </button>
+        </section>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- Results Section — hidden until calculation -->
+        <section
+          id="results-section"
+          class="results-section hidden"
+          aria-label="Age calculation results"
+          aria-live="polite"
+        >
+          <p class="results-label">Your exact age is</p>
+
+          <!-- Three stat cards: Years / Months / Days -->
+          <div class="stats-grid">
+            <div class="stat-card" id="stat-years">
+              <span class="stat-number" id="years-value">0</span>
+              <span class="stat-unit">Years</span>
+            </div>
+            <div class="stat-card" id="stat-months">
+              <span class="stat-number" id="months-value">0</span>
+              <span class="stat-unit">Months</span>
+            </div>
+            <div class="stat-card" id="stat-days">
+              <span class="stat-number" id="days-value">0</span>
+              <span class="stat-unit">Days</span>
+            </div>
+          </div>
+
+          <!-- Summary line (e.g. "Born on Monday, 1 January 2000") -->
+          <p class="born-on" id="born-on-text"></p>
+
+          <!-- Fun fact: total days lived -->
+          <p class="total-days" id="total-days-text"></p>
+        </section>
+
+      </div>
+
+      <!-- Footer note -->
+      <footer class="page-footer">
+        <p>Built with vanilla JS &amp; CSS variables &bull; No libraries</p>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

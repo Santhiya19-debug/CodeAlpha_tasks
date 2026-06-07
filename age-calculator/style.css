@@ -1,0 +1,571 @@
+/* ============================================================
+   Age Calculator — style.css
+   Author: Internship Project
+   Description: Full styling with CSS variables for light/dark
+   theming, responsive layout, and smooth transitions.
+   ============================================================ */
+
+/* ── Design Tokens ────────────────────────────────────────── */
+:root {
+  /* Brand palette */
+  --navy:     #2F4156;
+  --teal:     #567C8D;
+  --sky:      #C8D9E6;
+  --beige:    #F5EFEB;
+  --white:    #FFFFFF;
+
+  /* Light theme (default) */
+  --bg:           var(--beige);
+  --card-bg:      var(--white);
+  --primary:      var(--navy);
+  --secondary:    var(--teal);
+  --text-main:    #1E2936;
+  --text-muted:   #7A8FA0;
+  --border:       #DDE7EF;
+  --input-bg:     #FAFCFD;
+  --input-focus:  var(--teal);
+  --shadow-sm:    0 2px 12px rgba(47, 65, 86, 0.07);
+  --shadow-md:    0 8px 32px rgba(47, 65, 86, 0.12);
+  --shadow-lg:    0 20px 60px rgba(47, 65, 86, 0.16);
+  --stat-bg:      #F0F6FA;
+  --stat-border:  var(--sky);
+  --error-color:  #C0392B;
+  --error-bg:     #FDECEA;
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Spacing & shape */
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  30px;
+
+  /* Transitions */
+  --transition: 0.3s ease;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bg:           #1E2936;
+  --card-bg:      var(--navy);
+  --primary:      var(--sky);
+  --secondary:    var(--teal);
+  --text-main:    var(--beige);
+  --text-muted:   #8BA8BC;
+  --border:       #3E566B;
+  --input-bg:     #263545;
+  --input-focus:  #7AAFC5;
+  --shadow-sm:    0 2px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-lg:    0 20px 60px rgba(0, 0, 0, 0.45);
+  --stat-bg:      #263545;
+  --stat-border:  #3E566B;
+  --error-color:  #E87070;
+  --error-bg:     rgba(192, 57, 43, 0.15);
+}
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  transition: background-color var(--transition), color var(--transition);
+
+  /* Subtle grain texture overlay */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.page-wrapper {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 44px 40px;
+  width: 100%;
+  border: 1px solid var(--border);
+  transition:
+    background-color var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative corner accent */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--sky) 0%, transparent 70%);
+  opacity: 0.35;
+  pointer-events: none;
+  transition: background var(--transition);
+}
+
+[data-theme="dark"] .card::before {
+  background: radial-gradient(circle, var(--teal) 0%, transparent 70%);
+  opacity: 0.18;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.card-header {
+  margin-bottom: 32px;
+}
+
+.card-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  transition: color var(--transition);
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ── Input Section ────────────────────────────────────────── */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+/* Wrapper to position the icon inside the input */
+.input-wrapper {
+  position: relative;
+}
+
+.date-input {
+  width: 100%;
+  padding: 13px 44px 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.date-input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(86, 124, 141, 0.18);
+}
+
+/* Style the native date picker calendar icon for webkit */
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 44px;
+  height: 100%;
+  cursor: pointer;
+}
+
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition);
+}
+
+/* Error state */
+.date-input.is-error {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.error-message {
+  font-size: 0.78rem;
+  color: var(--error-color);
+  background: var(--error-bg);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  display: none; /* shown by JS */
+  transition: background var(--transition), color var(--transition);
+}
+
+.error-message.visible {
+  display: block;
+}
+
+/* ── Calculate Button ─────────────────────────────────────── */
+.calculate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    transform 0.15s ease,
+    box-shadow var(--transition);
+  box-shadow: 0 4px 14px rgba(47, 65, 86, 0.3);
+}
+
+[data-theme="dark"] .calculate-btn {
+  background: var(--teal);
+  box-shadow: 0 4px 14px rgba(86, 124, 141, 0.35);
+}
+
+.calculate-btn:hover {
+  background: var(--teal);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(86, 124, 141, 0.35);
+}
+
+[data-theme="dark"] .calculate-btn:hover {
+  background: #6A93A7;
+}
+
+.calculate-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(47, 65, 86, 0.2);
+}
+
+.calculate-btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.calculate-btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 28px 0 0;
+  transition: background var(--transition);
+}
+
+/* ── Results Section ──────────────────────────────────────── */
+.results-section {
+  padding-top: 28px;
+}
+
+.results-section.hidden {
+  display: none;
+}
+
+.results-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+/* Three stat cards in a row */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: var(--stat-bg);
+  border: 1.5px solid var(--stat-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    transform 0.2s ease;
+
+  /* Entry animation prep */
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* Each card animates in with staggered delay */
+.stat-card.animate {
+  animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#stat-years  { animation-delay: 0.05s; }
+#stat-months { animation-delay: 0.12s; }
+#stat-days   { animation-delay: 0.19s; }
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--teal);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  transition: color var(--transition);
+}
+
+.stat-unit {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+/* Born-on detail line */
+.born-on {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  transition: color var(--transition);
+}
+
+.born-on strong {
+  color: var(--primary);
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+/* Total days fun fact */
+.total-days {
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--secondary);
+  background: var(--stat-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  border: 1px solid var(--stat-border);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+/* ── Theme Toggle Button ──────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform 0.15s ease;
+  z-index: 100;
+}
+
+.theme-toggle:hover {
+  box-shadow: var(--shadow-md);
+  transform: scale(1.06);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.toggle-icon {
+  transition: transform 0.4s ease;
+}
+
+.theme-toggle:hover .toggle-icon {
+  transform: rotate(20deg);
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.page-footer {
+  text-align: center;
+}
+
+.page-footer p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+/* Tablets and smaller */
+@media (max-width: 580px) {
+  .card {
+    padding: 36px 28px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  body {
+    padding: 20px 12px;
+    justify-content: flex-start;
+    padding-top: 64px;
+  }
+
+  .card {
+    padding: 30px 22px;
+  }
+
+  .card-title {
+    font-size: 1.85rem;
+  }
+
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 16px 8px;
+    border-radius: var(--radius-md);
+  }
+
+  .stat-number {
+    font-size: 1.9rem;
+  }
+
+  .theme-toggle {
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: row;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+  }
+}
